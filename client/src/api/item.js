@@ -1,12 +1,11 @@
-import { v4 } from "uuid";
-import { request } from "./apiClient";
+import axios from "axios";
 
 export const item = {
-  getItems: () => request.get("/items"),
+  getItems: () => axios.get("/items"),
   postItem: (item) =>
-    request.post("/items", {
+    axios.post("/items", {
       name: item,
       date: new Date().toLocaleDateString(),
     }),
-  deleteItem: (id) => request.delete(`/items/${id}`),
+  deleteItem: (id) => axios.delete(`/items/${id}`),
 };
