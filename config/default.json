@@ -1,0 +1,5 @@
+{
+  "port": 9000,
+  "mongoDbURI": "mongodb+srv://nurs:2000nura@cluster0.vr8io.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtSecret": "nurs nurs 2000"
+}
