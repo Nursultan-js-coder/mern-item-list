@@ -1,11 +1,11 @@
-import axios from "axios";
+import { request } from "./apiClient";
 
 export const item = {
-  getItems: () => axios.get("/items"),
+  getItems: () => request.get("/items"),
   postItem: (item) =>
-    axios.post("/items", {
+    request.post("/items", {
       name: item,
       date: new Date().toLocaleDateString(),
     }),
-  deleteItem: (id) => axios.delete(`/items/${id}`),
+  deleteItem: (id) => request.delete(`/items/${id}`),
 };

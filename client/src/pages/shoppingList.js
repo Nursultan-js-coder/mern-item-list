@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { deleteItem, fetchItems, saveItem } from "../store/requests/item";
 
 const ShoppingList = (props) => {
-  const { items, error, loading, deleteItem } = props;
+  const { items, error, isAuthenticated, loading, deleteItem } = props;
   const [modalShow, setModalShow] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -19,10 +19,11 @@ const ShoppingList = (props) => {
   if (error) return <p>Error</p>;
   return (
     <>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-        Add Item
-      </Button>
-
+      {isAuthenticated && (
+        <Button variant="primary" onClick={() => setModalShow(true)}>
+          Add Item
+        </Button>
+      )}
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
@@ -43,12 +44,14 @@ const ShoppingList = (props) => {
                       }}
                     >
                       <p>{item.name}</p>
-                      <Button
-                        variant="danger"
-                        onClick={() => dispatch(deleteItem(item._id))}
-                      >
-                        remove
-                      </Button>
+                      {isAuthenticated && (
+                        <Button
+                          variant="danger"
+                          onClick={() => dispatch(deleteItem(item._id))}
+                        >
+                          remove
+                        </Button>
+                      )}
                     </div>
                   </ListGroup.Item>
                 </CSSTransition>
@@ -65,6 +68,7 @@ const mapStateToProps = (state) => {
     items: state.item.entities,
     error: state.item.error,
     loading: state.item.loading,
+    isAuthenticated: state.auth.isAuthenticated,
   };
 };
 const mapDispatchToProps = (dispatch) => {
