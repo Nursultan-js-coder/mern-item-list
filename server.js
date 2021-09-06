@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const config = require("config");
 const itemRouter = require("./routes/api/items");
 const bookRouter = require("./routes/api/books");
+const userRouter = require("./routes/api/users");
+const authRouter = require("./routes/api/auth");
 const path = require("path");
 
 const app = express();
@@ -30,6 +32,8 @@ app.get("/", (req, res) => {
 });
 app.use("/api/items", itemRouter);
 app.use("/api/books", bookRouter);
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
