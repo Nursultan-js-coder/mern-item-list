@@ -1,17 +1,42 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
-import MyVerticallyCenteredModal from "../modals/RegisterPopup";
-import MyVerticallyCenteredModalLogin from "../modals/LoginPopup";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { userLoggedOut } from "../../store/actions/auth-action-creator";
 import { connect } from "react-redux";
+import AppModal from "../modals/modal";
+import AppForm from "../forms/Form";
+import { loginUser, registerUser } from "../../store/actions/auth";
+
+const registerFormFields = [
+  {
+    placeholder: "Enter name",
+    name: "name",
+    type: "text",
+  },
+  {
+    placeholder: "Enter email",
+    name: "email",
+    type: "email",
+  },
+  {
+    placeholder: "Enter password",
+    name: "password",
+    type: "text",
+  },
+];
+
+const loginFormFields = [
+  {
+    placeholder: "Enter email",
+    name: "email",
+    type: "email",
+  },
+  {
+    placeholder: "Enter password",
+    name: "password",
+    type: "text",
+  },
+];
 
 const AppNavBar = (props) => {
   const [modalShow, setModalShow] = useState(false);
@@ -48,15 +73,26 @@ const AppNavBar = (props) => {
               </>
             ) : (
               <>
-                <Button variant="primary" onClick={() => setModalShow(true)}>
+                <Button
+                  variant="primary"
+                  onClick={() => setModalShowRegister(true)}
+                >
                   Register
                 </Button>
 
-                <MyVerticallyCenteredModal
+                <AppModal
                   show={modalShowRegister}
                   onHide={() => setModalShowRegister(false)}
                   setModalShow={setModalShowRegister}
-                />
+                  title="Registration Form"
+                >
+                  <AppForm
+                    setModalShow={setModalShowRegister}
+                    fields={registerFormFields}
+                    action={registerUser}
+                  />
+                </AppModal>
+
                 <Button
                   variant="primary"
                   style={{ marginLeft: 10 }}
@@ -65,11 +101,18 @@ const AppNavBar = (props) => {
                   Login
                 </Button>
 
-                <MyVerticallyCenteredModalLogin
+                <AppModal
                   show={modalShow}
                   onHide={() => setModalShow(false)}
                   setModalShow={setModalShow}
-                />
+                  title="Login Form"
+                >
+                  <AppForm
+                    setModalShow={setModalShow}
+                    fields={loginFormFields}
+                    action={loginUser}
+                  />
+                </AppModal>
               </>
             )}
           </div>

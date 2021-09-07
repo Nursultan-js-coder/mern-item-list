@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import MyVerticallyCenteredModal from "../components/modals/Popup";
 import { Button, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { itemAdded, itemDeleted } from "../store/actions/item";
 import { useDispatch } from "react-redux";
 import { deleteItem, fetchItems, saveItem } from "../store/requests/item";
+import AppForm from "../components/forms/Form";
+import AppModal from "../components/modals/modal";
 
+const itemFormFields = [
+  {
+    placeholder: "Enter name",
+    name: "name",
+    type: "text",
+  },
+];
 const ShoppingList = (props) => {
   const { items, error, isAuthenticated, loading, deleteItem } = props;
   const [modalShow, setModalShow] = React.useState(false);
@@ -24,10 +31,18 @@ const ShoppingList = (props) => {
           Add Item
         </Button>
       )}
-      <MyVerticallyCenteredModal
+      <AppModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-      />
+        title="Item Form"
+      >
+        <AppForm
+          action={saveItem}
+          fields={itemFormFields}
+          setModalShow={setModalShow}
+          title="Item Form"
+        />
+      </AppModal>
       <ListGroup className="mt-3">
         <TransitionGroup>
           {items &&

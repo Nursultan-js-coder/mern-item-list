@@ -4,20 +4,35 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true,
+  },
+  image_URL: {
+    type: String,
   },
   email: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
   },
   register_date: {
     type: Date,
     default: Date.now,
+  },
+  role: {
+    role_id: String,
+  },
+  projects: {
+    type: Array,
+    array: [],
+  },
+  teams: {
+    type: String,
+    array: [],
+  },
+  bill: {
+    type: String,
+    default: "",
   },
 });
 

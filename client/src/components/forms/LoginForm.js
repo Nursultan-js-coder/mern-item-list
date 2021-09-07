@@ -48,6 +48,7 @@ const LoginForm = (props) => {
     </Form>
   );
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch(loginUser(user)),

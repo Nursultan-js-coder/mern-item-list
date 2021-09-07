@@ -1,47 +1,30 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { registerUser } from "../../store/actions/auth";
+import { saveItem } from "../../store/requests/item";
+import { useDispatch } from "react-redux";
 
-const RegisterForm = (props) => {
+const AppForm = (props) => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { registerUser, setModalShow } = props;
-
+  const { saveItem } = props;
+  const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
-    registerUser({ name, email, password });
+    dispatch(saveItem(name));
     setName("");
-    setModalShow(false);
   };
   return (
     <Form onSubmit={submitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Register Form</Form.Label>
+        <Form.Label>Item Name</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
-        </Form.Text>
-        <Form.Control
-          type="text"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Form.Text className="text-muted">
-          We'll never share your password with anyone else.
         </Form.Text>
       </Form.Group>
 
@@ -56,8 +39,8 @@ const RegisterForm = (props) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    registerUser: (user) => dispatch(registerUser(user)),
+    saveItem: (item) => saveItem(item),
   };
 };
 
-export default connect(null, mapDispatchToProps)(RegisterForm);
+export default connect(null, mapDispatchToProps)(AppForm);

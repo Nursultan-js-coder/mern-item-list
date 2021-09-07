@@ -5,28 +5,41 @@ import { saveItem } from "../../store/requests/item";
 import { useDispatch } from "react-redux";
 
 const AppForm = (props) => {
-  const [name, setName] = useState("");
-  const { saveItem } = props;
+  const [inputValues, setInputValues] = useState({});
+  const { fields, title, action, setModalShow } = props;
   const dispatch = useDispatch();
   const submitHandler = (e) => {
+    console.log("inputValues:", inputValues);
     e.preventDefault();
-    dispatch(saveItem(name));
-    setName("");
+    dispatch(action(inputValues));
+    setInputValues({});
+    setModalShow(false);
+  };
+  const changeHandler = ({ target: { name, value } }) => {
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
   };
   return (
     <Form onSubmit={submitHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Item Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
+      {fields.map((field, index) => {
+        return (
+          <Form.Group key={index} className="mb-3" controlId="formBasicEmail">
+            <Form.Label>{title}</Form.Label>
+            <Form.Control
+              type={field["type"]}
+              placeholder={field["placeholder"]}
+              value={inputValues[field["name"]] ?? ""}
+              name={field["name"]}
+              onChange={changeHandler}
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+        );
+      })}
 
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
@@ -39,7 +52,6 @@ const AppForm = (props) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    // addItem: (item) => dispatch(itemAdded(item)),
     saveItem: (item) => saveItem(item),
   };
 };

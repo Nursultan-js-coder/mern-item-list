@@ -23,7 +23,7 @@ export const saveItem = (item) => async (dispatch, getState) => {
   dispatch(itemLoading(true));
 
   const body = JSON.stringify({
-    name: item,
+    name: item.name,
     date: new Date().toLocaleDateString(),
   });
 
